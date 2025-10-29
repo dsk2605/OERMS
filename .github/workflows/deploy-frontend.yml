@@ -1,0 +1,34 @@
+name: Deploy Frontend to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main # Or 'master' if your branch is named master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install and Build React App
+        # This step moves INTO your frontend folder, installs, and builds
+        run: |
+          cd oerms_frontend
+          npm install
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # This tells the action to publish the 'build' folder 
+          # from inside the 'oerms_frontend' directory
+          publish_dir: ./oerms_frontend/build

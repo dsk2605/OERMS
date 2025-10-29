@@ -1,0 +1,39 @@
+# Ignore Node.js dependency folders in both backend and frontend
+node_modules
+oerms_frontend/node_modules
+oerms_frontend/build
+
+# Ignore Git folder
+.git
+
+# Ignore Docker files themselves
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Ignore environment files
+.env
+.env.example
+
+# Ignore log files, temporary files, and common OS files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+.DS_Store
+Thumbs.db
+```
+
+#### **Step 3: Final Clean Rebuild**
+
+Now, run the build command again. Because `.dockerignore` reduces the files Docker needs to copy, this build should be significantly faster.
+
+1.  **Stop Docker (if running):**
+    ```bash
+    docker-compose down
+    ```
+2.  **Rebuild and Run (Apply `.dockerignore`):**
+    ```bash
+    docker-compose up --build -d
+    
+

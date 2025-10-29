@@ -1,0 +1,39 @@
+services:
+  # 1. Backend Service (Web)
+  web:
+    build: . # Build the image using the Dockerfile in the current directory
+    ports:
+      - "5000:5000" # Map host port 5000 to container port 5000
+    restart: always
+    environment:
+      # These environment variables are passed to your server.js
+      DB_HOST: db # Crucial: 'db' is the name of the PostgreSQL service
+      DB_USER: ${DB_USER} 
+      DB_PASS: ${DB_PASS} 
+      DB_NAME: ${DB_NAME}
+      JWT_SECRET: ${JWT_SECRET}
+      PORT: 5000
+    # The 'web' app depends on the 'db' being ready
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 2. Database Service (DB)
+  db:
+    image: postgres:16-alpine # Lightweight PostgreSQL image
+    restart: always
+    environment:
+      # These variables configure the PostgreSQL container
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/ # Persistent storage for your data
+    healthcheck: # Check if the database is ready for connections
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

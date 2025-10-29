@@ -1,0 +1,9 @@
+# Ignore node_modules folders everywhere
+**/node_modules
+
+# Ignore build output
+oerms_frontend/build
+
+# Ignore .env files
+.env
+oerms_frontend/.env
