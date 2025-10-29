@@ -9,7 +9,7 @@ const isValidEmailDomain = (email) => {
     }
     return email.toLowerCase().endsWith(`@${REQUIRED_DOMAIN}`);
 };
-const API_URL = 'http://localhost:5000/api';
+const API_URL = 'https://oerms-backend.onrender.com/api';
 const REQUIRED_DOMAIN = 'sakec.ac.in'; // <-- ADD THIS
 const getAuthHeaders = () => {
     const token = localStorage.getItem('token');
