@@ -11,7 +11,15 @@ import proctorRoutes from './routes/proctorRoutes.js';
 
 dotenv.config();
 const app = express();
-app.use(cors());
+// --- Replace app.use(cors()); with this ---
+const corsOptions = {
+  origin: [
+    'http://localhost:3000', // For your local testing
+    'https://dsk2605.github.io' // For your live frontend
+  ]
+};
+app.use(cors(corsOptions));
+// ----------------------------------------
 app.use(express.json());
 app.use('/api/proctor', proctorRoutes);
 // --- New Route Integration ---
